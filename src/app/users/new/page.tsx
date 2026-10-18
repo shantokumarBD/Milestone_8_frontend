@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function InputFieldgroup() {
-  const handleCreateuser = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateuser = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Hello");
 
@@ -17,7 +17,21 @@ export default function InputFieldgroup() {
     const name = formData.get("name");
     const email = formData.get("email");
 
-    console.log(name, email);
+    const res = await fetch(`http://localhost:5000/users`,{
+      method:"POST",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({
+        name,
+        email
+      })
+      
+    })
+    const data = await res.json()
+
+    console.log(data);
+    
   };
   return (
     <form onSubmit={handleCreateuser}>
